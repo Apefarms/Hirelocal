@@ -1,0 +1,212 @@
+{
+  "jobs": [
+    {
+      "id": "job-1",
+      "title": "Warehouse Helper",
+      "company": "FastTrack Logistics",
+      "location": "Bhiwandi, Mumbai",
+      "description": "We are looking for energetic warehouse helpers to manage inventory, load/unload shipments, and maintain warehouse cleanliness. No prior experience needed — training provided on the job.",
+      "requirements": ["Physical Fitness", "Hindi Speaking", "Basic Math", "Punctuality"],
+      "postedDate": "2026-08-01",
+      "salary": "₹12,000 - ₹15,000/month"
+    },
+    {
+      "id": "job-2",
+      "title": "Accounts Executive",
+      "company": "Sharma & Associates CA Firm",
+      "location": "Andheri West, Mumbai",
+      "description": "Handle day-to-day accounting tasks including GST filing, TDS returns, bank reconciliations, and client ledger management. Tally proficiency is essential.",
+      "requirements": ["Tally ERP", "GST Knowledge", "Excel", "B.Com", "Accounting"],
+      "postedDate": "2026-08-03",
+      "salary": "₹18,000 - ₹25,000/month"
+    },
+    {
+      "id": "job-3",
+      "title": "AutoCAD Drafter",
+      "company": "BuildRight Constructions",
+      "location": "Thane, Mumbai",
+      "description": "Prepare detailed 2D and 3D drawings for residential and commercial construction projects. Coordinate with site engineers for accurate measurements and revisions.",
+      "requirements": ["AutoCAD", "Civil Engineering", "2D Drafting", "3D Modeling", "Revit"],
+      "postedDate": "2026-08-05",
+      "salary": "₹20,000 - ₹30,000/month"
+    },
+    {
+      "id": "job-4",
+      "title": "Retail Sales Associate",
+      "company": "TrendZ Fashion",
+      "location": "Malad, Mumbai",
+      "description": "Assist customers in our retail store, manage billing, maintain product displays, and achieve monthly sales targets. Pleasant personality and good communication required.",
+      "requirements": ["Communication", "Sales", "Hindi Speaking", "English Speaking", "Customer Service"],
+      "postedDate": "2026-08-06",
+      "salary": "₹14,000 - ₹18,000/month + incentives"
+    },
+    {
+      "id": "job-5",
+      "title": "Data Entry Operator",
+      "company": "Sharma & Associates CA Firm",
+      "location": "Andheri West, Mumbai",
+      "description": "Enter financial data into our systems accurately and efficiently. Verify source documents, maintain records, and generate periodic reports. Good typing speed required.",
+      "requirements": ["Typing Speed", "Excel", "Data Entry", "Attention to Detail", "Computer Basics"],
+      "postedDate": "2026-08-07",
+      "salary": "₹12,000 - ₹16,000/month"
+    }
+  ],
+  "candidates": [
+    {
+      "id": "cand-1",
+      "name": "Rahul Sharma",
+      "phone": "9876543210",
+      "email": "rahul.sharma@gmail.com",
+      "password": "demo123",
+      "education": "B.Com from Mumbai University, 2024",
+      "experience": "1 year internship at a CA firm handling GST returns and Tally entries",
+      "skills": ["Tally ERP", "Excel", "GST Knowledge", "Accounting", "Data Entry"],
+      "resumeUrl": "/resumes/rahul_sharma.pdf",
+      "appliedJobIds": ["job-2", "job-5"]
+    },
+    {
+      "id": "cand-2",
+      "name": "Priya Patel",
+      "phone": "9876543211",
+      "email": "priya.patel@gmail.com",
+      "password": "demo123",
+      "education": "Diploma in Civil Engineering from Government Polytechnic, 2023",
+      "experience": "2 years as junior drafter at a construction company in Thane",
+      "skills": ["AutoCAD", "2D Drafting", "3D Modeling", "Revit", "Civil Engineering"],
+      "resumeUrl": "/resumes/priya_patel.pdf",
+      "appliedJobIds": ["job-3"]
+    },
+    {
+      "id": "cand-3",
+      "name": "Amit Kumar",
+      "phone": "9876543212",
+      "email": "amit.kumar@gmail.com",
+      "password": "demo123",
+      "education": "12th Pass from Government School, Bhiwandi",
+      "experience": "6 months warehouse work at a logistics company",
+      "skills": ["Physical Fitness", "Hindi Speaking", "Basic Math", "Punctuality"],
+      "resumeUrl": "/resumes/amit_kumar.pdf",
+      "appliedJobIds": ["job-1"]
+    },
+    {
+      "id": "cand-4",
+      "name": "Sneha Desai",
+      "phone": "9876543213",
+      "email": "sneha.desai@gmail.com",
+      "password": "demo123",
+      "education": "BBA from NMIMS, 2025",
+      "experience": "Fresher — 3 month retail internship at Lifestyle",
+      "skills": ["Communication", "Sales", "English Speaking", "Customer Service", "Excel"],
+      "resumeUrl": "/resumes/sneha_desai.pdf",
+      "appliedJobIds": ["job-4", "job-5"]
+    },
+    {
+      "id": "cand-5",
+      "name": "Vikram Singh",
+      "phone": "9876543214",
+      "email": "vikram.singh@gmail.com",
+      "password": "demo123",
+      "education": "10th Pass",
+      "experience": "3 years warehouse experience at Amazon fulfillment center, Bhiwandi",
+      "skills": ["Physical Fitness", "Hindi Speaking", "Punctuality", "Forklift Operation"],
+      "resumeUrl": "/resumes/vikram_singh.pdf",
+      "appliedJobIds": ["job-1"]
+    },
+    {
+      "id": "cand-6",
+      "name": "Neha Joshi",
+      "phone": "9876543215",
+      "email": "neha.joshi@gmail.com",
+      "password": "demo123",
+      "education": "M.Com from Mumbai University, 2023",
+      "experience": "2 years as accounts assistant at a trading company",
+      "skills": ["Tally ERP", "Excel", "Accounting", "GST Knowledge", "B.Com", "Data Entry"],
+      "resumeUrl": "/resumes/neha_joshi.pdf",
+      "appliedJobIds": ["job-2", "job-5"]
+    },
+    {
+      "id": "cand-7",
+      "name": "Arjun Mehta",
+      "phone": "9876543216",
+      "email": "arjun.mehta@gmail.com",
+      "password": "demo123",
+      "education": "B.Tech Civil from Thane College of Engineering, 2024",
+      "experience": "1 year at an architecture firm doing AutoCAD drawings",
+      "skills": ["AutoCAD", "3D Modeling", "Civil Engineering", "Revit", "SketchUp"],
+      "resumeUrl": "/resumes/arjun_mehta.pdf",
+      "appliedJobIds": ["job-3"]
+    },
+    {
+      "id": "cand-8",
+      "name": "Pooja Reddy",
+      "phone": "9876543217",
+      "email": "pooja.reddy@gmail.com",
+      "password": "demo123",
+      "education": "12th Pass with Commerce, 2025",
+      "experience": "Fresher — looking for first job",
+      "skills": ["Typing Speed", "Computer Basics", "Hindi Speaking", "English Speaking", "Data Entry"],
+      "resumeUrl": "/resumes/pooja_reddy.pdf",
+      "appliedJobIds": ["job-5", "job-4"]
+    },
+    {
+      "id": "cand-9",
+      "name": "Deepak Yadav",
+      "phone": "9876543218",
+      "email": "deepak.yadav@gmail.com",
+      "password": "demo123",
+      "education": "ITI Certificate in Electrician, 2022",
+      "experience": "1 year as warehouse assistant at Flipkart hub",
+      "skills": ["Physical Fitness", "Hindi Speaking", "Basic Math", "Electrical Basics"],
+      "resumeUrl": "/resumes/deepak_yadav.pdf",
+      "appliedJobIds": ["job-1"]
+    },
+    {
+      "id": "cand-10",
+      "name": "Kavita Nair",
+      "phone": "9876543219",
+      "email": "kavita.nair@gmail.com",
+      "password": "demo123",
+      "education": "B.Com from Mithibai College, 2024",
+      "experience": "6 months data entry at an insurance company",
+      "skills": ["Excel", "Data Entry", "Typing Speed", "Attention to Detail", "Computer Basics", "Tally ERP"],
+      "resumeUrl": "/resumes/kavita_nair.pdf",
+      "appliedJobIds": ["job-5", "job-2"]
+    }
+  ],
+  "applications": [
+    { "id": "app-1", "candidateId": "cand-1", "jobId": "job-2", "status": "shortlisted", "matchScore": 92, "appliedDate": "2026-08-03" },
+    { "id": "app-2", "candidateId": "cand-1", "jobId": "job-5", "status": "applied", "matchScore": 78, "appliedDate": "2026-08-07" },
+    { "id": "app-3", "candidateId": "cand-2", "jobId": "job-3", "status": "shortlisted", "matchScore": 95, "appliedDate": "2026-08-05" },
+    { "id": "app-4", "candidateId": "cand-3", "jobId": "job-1", "status": "applied", "matchScore": 88, "appliedDate": "2026-08-02" },
+    { "id": "app-5", "candidateId": "cand-4", "jobId": "job-4", "status": "applied", "matchScore": 82, "appliedDate": "2026-08-06" },
+    { "id": "app-6", "candidateId": "cand-4", "jobId": "job-5", "status": "rejected", "matchScore": 45, "appliedDate": "2026-08-07" },
+    { "id": "app-7", "candidateId": "cand-5", "jobId": "job-1", "status": "shortlisted", "matchScore": 96, "appliedDate": "2026-08-01" },
+    { "id": "app-8", "candidateId": "cand-6", "jobId": "job-2", "status": "applied", "matchScore": 89, "appliedDate": "2026-08-04" },
+    { "id": "app-9", "candidateId": "cand-6", "jobId": "job-5", "status": "shortlisted", "matchScore": 85, "appliedDate": "2026-08-07" },
+    { "id": "app-10", "candidateId": "cand-7", "jobId": "job-3", "status": "applied", "matchScore": 87, "appliedDate": "2026-08-06" },
+    { "id": "app-11", "candidateId": "cand-8", "jobId": "job-5", "status": "applied", "matchScore": 72, "appliedDate": "2026-08-08" },
+    { "id": "app-12", "candidateId": "cand-8", "jobId": "job-4", "status": "applied", "matchScore": 65, "appliedDate": "2026-08-07" },
+    { "id": "app-13", "candidateId": "cand-9", "jobId": "job-1", "status": "rejected", "matchScore": 58, "appliedDate": "2026-08-03" },
+    { "id": "app-14", "candidateId": "cand-10", "jobId": "job-5", "status": "applied", "matchScore": 91, "appliedDate": "2026-08-08" },
+    { "id": "app-15", "candidateId": "cand-10", "jobId": "job-2", "status": "applied", "matchScore": 76, "appliedDate": "2026-08-08" },
+    { "id": "app-16", "candidateId": "cand-5", "jobId": "job-4", "status": "applied", "matchScore": 35, "appliedDate": "2026-08-07" }
+  ],
+  "hrUsers": [
+    {
+      "id": "hr-1",
+      "name": "Rajesh Khanna",
+      "company": "FastTrack Logistics",
+      "email": "rajesh@fasttrack.com",
+      "password": "demo123",
+      "jobIds": ["job-1", "job-4"]
+    },
+    {
+      "id": "hr-2",
+      "name": "Meera Iyer",
+      "company": "Sharma & Associates CA Firm",
+      "email": "meera@sharmaassociates.com",
+      "password": "demo123",
+      "jobIds": ["job-2", "job-3", "job-5"]
+    }
+  ]
+}
