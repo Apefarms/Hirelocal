@@ -11,7 +11,7 @@ function getCredentialFilePath(): string | null {
   if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
     const customPath = path.isAbsolute(process.env.GOOGLE_APPLICATION_CREDENTIALS)
       ? process.env.GOOGLE_APPLICATION_CREDENTIALS
-      : path.resolve(process.cwd(), process.env.GOOGLE_APPLICATION_CREDENTIALS);
+      : path.resolve(/*turbopackIgnore: true*/ process.cwd(), process.env.GOOGLE_APPLICATION_CREDENTIALS);
     if (fs.existsSync(customPath)) return customPath;
   }
 
@@ -137,6 +137,7 @@ export async function uploadResumeToDrive(
       const res = await fetch(process.env.GOOGLE_APPS_SCRIPT_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        redirect: "follow",
         body: JSON.stringify({
           folderId,
           fileName,
@@ -153,7 +154,7 @@ export async function uploadResumeToDrive(
         };
       }
       throw new Error(data.error || "Google Apps Script upload failed");
-    } catch (appsScriptErr: any) {
+    } catch (appsScriptErr: unknown) {
       console.error("Apps Script upload error:", appsScriptErr);
       throw appsScriptErr;
     }

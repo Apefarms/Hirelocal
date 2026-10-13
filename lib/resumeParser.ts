@@ -9,6 +9,8 @@
  */
 
 import mammoth from "mammoth";
+import fs from "fs";
+import { execSync } from "child_process";
 
 /* ═══════════════════════════════════════════
    Skills keyword list
@@ -41,6 +43,31 @@ export const SKILLS_KEYWORDS: string[] = [
    ═══════════════════════════════════════════ */
 
 /**
+ * Checks if Tesseract OCR binary is installed and reachable.
+ * Returns true if available locally (e.g. Windows dev machine), false on Vercel/serverless environments.
+ */
+export function isTesseractAvailable(): boolean {
+  const customPath = process.env.TESSERACT_PATH;
+  if (customPath) {
+    try {
+      if (fs.existsSync(customPath)) {
+        return true;
+      }
+    } catch {
+      // Ignore filesystem access check errors
+    }
+  }
+
+  try {
+    const cmd = process.platform === "win32" ? "where tesseract" : "which tesseract";
+    execSync(cmd, { stdio: "ignore", timeout: 1000 });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/**
  * Extract text from a DOCX file buffer
  */
 export async function extractTextFromDocx(buffer: Buffer): Promise<string> {
@@ -54,32 +81,43 @@ export async function extractTextFromDocx(buffer: Buffer): Promise<string> {
  */
 export async function extractTextFromPdf(buffer: Buffer): Promise<string> {
   // Use pdf-parse/lib/pdf-parse.js directly to avoid the debug mode `!module.parent` readFileSync side-effect in Next.js
-  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const pdfParse = require("pdf-parse/lib/pdf-parse.js");
   const data = await pdfParse(buffer);
   return (data.text || "").trim();
 }
 
 /**
- * Extract text from an image file using Tesseract OCR
+ * Extract text from an image file using Tesseract OCR.
+ * Gracefully returns empty string if Tesseract is not installed in the environment (e.g. on Vercel).
  */
 export async function extractTextWithOCR(filePath: string): Promise<string> {
-  const tesseract = await import("node-tesseract-ocr");
-
-  const config: Record<string, string> = {
-    lang: "eng",
-    oem: "3",
-    psm: "3",
-  };
-
-  // Set tesseract binary path from env
-  const tesseractPath = process.env.TESSERACT_PATH;
-  if (tesseractPath) {
-    config.binary = tesseractPath;
+  if (!isTesseractAvailable()) {
+    console.warn("Tesseract OCR binary not found in current environment. Gracefully skipping OCR extraction.");
+    return "";
   }
 
-  const text = await tesseract.recognize(filePath, config);
-  return (text || "").trim();
+  try {
+    const tesseract = await import("node-tesseract-ocr");
+
+    const config: Record<string, string> = {
+      lang: "eng",
+      oem: "3",
+      psm: "3",
+    };
+
+    // Set tesseract binary path from env if specified
+    const tesseractPath = process.env.TESSERACT_PATH;
+    if (tesseractPath && fs.existsSync(tesseractPath)) {
+      config.binary = tesseractPath;
+    }
+
+    const text = await tesseract.recognize(filePath, config);
+    return (text || "").trim();
+  } catch (ocrError) {
+    console.warn("OCR recognition encountered an error:", ocrError);
+    return "";
+  }
 }
 
 /* ═══════════════════════════════════════════

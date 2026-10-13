@@ -12,6 +12,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { writeFile, unlink, mkdir } from "fs/promises";
 import { join } from "path";
 import { existsSync } from "fs";
+import os from "os";
 import {
   extractTextFromDocx,
   extractTextFromPdf,
@@ -24,7 +25,8 @@ import pool from "@/lib/db";
 // Disable body parser — we handle multipart manually
 export const runtime = "nodejs";
 
-const UPLOAD_DIR = join(process.cwd(), "tmp", "uploads");
+// Use os.tmpdir() for serverless compatibility (Vercel lambda process.cwd() is read-only)
+const UPLOAD_DIR = join(os.tmpdir(), "hirelocal_uploads");
 
 async function ensureUploadDir() {
   if (!existsSync(UPLOAD_DIR)) {
@@ -93,11 +95,16 @@ export async function POST(request: NextRequest) {
 
     // 2. Fallback to local storage only if Google Drive is not configured or failed
     if (!publicResumePath) {
-      const RESUME_STORAGE_DIR = join(process.cwd(), "public", "Storage", "resume");
-      await mkdir(RESUME_STORAGE_DIR, { recursive: true });
-      const savedFilePath = join(RESUME_STORAGE_DIR, uniqueFileName);
-      await writeFile(savedFilePath, buffer);
-      publicResumePath = `/Storage/resume/${uniqueFileName}`;
+      try {
+        const RESUME_STORAGE_DIR = join(process.cwd(), "public", "Storage", "resume");
+        await mkdir(RESUME_STORAGE_DIR, { recursive: true });
+        const savedFilePath = join(RESUME_STORAGE_DIR, uniqueFileName);
+        await writeFile(savedFilePath, buffer);
+        publicResumePath = `/Storage/resume/${uniqueFileName}`;
+      } catch (localWriteErr) {
+        console.warn("Local storage write failed or not supported in current environment (e.g. read-only serverless):", localWriteErr);
+        publicResumePath = "";
+      }
     }
 
     let rawText = "";

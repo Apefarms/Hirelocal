@@ -18,6 +18,14 @@ export async function GET() {
     const [appCount]: any = await pool.query('SELECT COUNT(*) as count FROM applications');
     const [resCount]: any = await pool.query('SELECT COUNT(*) as count FROM resumes');
 
+    let paymentsTotal = 0;
+    try {
+      const [payCount]: any = await pool.query('SELECT COUNT(*) as count FROM payments');
+      paymentsTotal = payCount[0]?.count || 0;
+    } catch {
+      // payments table might not yet exist in legacy instances
+    }
+
     return NextResponse.json({
       success: true,
       message: 'Successfully connected to MySQL database!',
@@ -28,6 +36,7 @@ export async function GET() {
         candidates: candCount[0].count,
         applications: appCount[0].count,
         resumes: resCount[0].count,
+        payments: paymentsTotal,
       },
     });
   } catch (error: any) {
