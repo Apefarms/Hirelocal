@@ -19,7 +19,7 @@ export function LoadingSpinner({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
 
 export function BrandLoadingOverlay({
   message = "Loading...",
-  subtext = "HireLocal • Hyperlocal Job Portal",
+  subtext = "Sri city Jobs • Hyperlocal Job Portal",
   fullScreen = true,
 }: {
   message?: string;
@@ -46,23 +46,22 @@ export function BrandLoadingOverlay({
       {/* Brand Icon + Glowing Ripple */}
       <div className="relative mb-4 flex items-center justify-center">
         {/* Soft background ambient glow */}
-        <div className="absolute -inset-4 rounded-3xl bg-primary-600/15 dark:bg-primary-500/25 blur-xl animate-pulse-soft pointer-events-none" />
+        <div className="absolute -inset-4 rounded-3xl bg-amber-500/20 dark:bg-amber-500/25 blur-xl animate-pulse-soft pointer-events-none" />
 
         {/* Central Logo Badge */}
-        <div className="relative w-16 h-16 rounded-2xl bg-primary-600 flex items-center justify-center shadow-xl shadow-primary-600/35 animate-logo-glow">
-          <svg className="w-9 h-9 text-white" viewBox="0 0 32 32" fill="none">
-            <path
-              d="M10 22V10h3v4.5h6V10h3v12h-3v-5h-6v5h-3z"
-              fill="currentColor"
-            />
-          </svg>
+        <div className="relative w-20 h-20 rounded-2xl bg-white dark:bg-slate-900 p-2 flex items-center justify-center shadow-xl shadow-amber-500/15 border border-slate-100 dark:border-slate-800 animate-pulse">
+          <img
+            src="/sri_city_logo.png"
+            alt="Sri City Logo"
+            className="w-full h-full object-contain select-none"
+          />
         </div>
       </div>
 
       {/* Brand Text & Indicator */}
       <div className="text-center space-y-2 px-4">
         <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
-          HireLocal
+          Sri city Jobs
         </h2>
 
         {/* Three bouncing brand dots */}
@@ -96,7 +95,7 @@ export function FullPageLoader({ subtext }: { subtext?: string }) {
     <BrandLoadingOverlay
       fullScreen={true}
       message="Loading..."
-      subtext={subtext || "HireLocal • Connecting you to local jobs"}
+      subtext={subtext || "Sri city Jobs • Connecting you to local jobs"}
     />
   );
 }

@@ -1,4 +1,4 @@
-# HireLocal — Hyperlocal Job Portal
+# Sri city Jobs — Hyperlocal Job Portal
 
 A modern, fast, and mobile-friendly recruitment platform designed for industrial and manufacturing job ecosystems (featuring Sri City integration). Built with Next.js App Router, TypeScript, Tailwind CSS, and MySQL.
 

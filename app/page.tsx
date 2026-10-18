@@ -30,9 +30,7 @@ export default function LandingPage() {
         <div className="max-w-lg w-full text-center relative z-10 animate-fade-in my-auto">
           {/* Brand icon */}
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary-600 shadow-lg shadow-primary-500/30 mb-6">
-            <svg className="w-9 h-9 text-white" viewBox="0 0 32 32" fill="none">
-              <path d="M10 22V10h3v4.5h6V10h3v12h-3v-5h-6v5h-3z" fill="currentColor" />
-            </svg>
+            <span className="text-white font-black text-3xl select-none">S</span>
           </div>
 
           <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-3 tracking-tight">
@@ -40,7 +38,7 @@ export default function LandingPage() {
             <span className="text-primary-600">Fast</span>
           </h1>
           <p className="text-base sm:text-lg text-slate-600 dark:text-slate-400 mb-8 max-w-md mx-auto leading-relaxed">
-            Apply to hyperlocal jobs near you in minutes. No long forms — just upload your resume and go.
+            This is the right time to Bridge your career with Hr to Get your Dream job ASAP!
           </p>
 
           <div className="mb-8">

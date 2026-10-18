@@ -21,19 +21,10 @@ export function Navbar() {
             href="/"
             className="flex items-center gap-2 text-lg font-bold text-primary-600 hover:text-primary-700 transition-colors"
           >
-            <svg className="w-7 h-7" viewBox="0 0 32 32" fill="none">
-              <rect
-                width="32"
-                height="32"
-                rx="8"
-                className="fill-primary-600"
-              />
-              <path
-                d="M10 22V10h3v4.5h6V10h3v12h-3v-5h-6v5h-3z"
-                fill="white"
-              />
-            </svg>
-            HireLocal
+            <div className="w-7 h-7 rounded-lg bg-primary-600 text-white font-black flex items-center justify-center text-sm shadow-sm select-none">
+              S
+            </div>
+            Sri city Jobs
           </Link>
 
           {/* Desktop nav */}

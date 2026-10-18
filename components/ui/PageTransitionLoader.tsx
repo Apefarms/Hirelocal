@@ -82,7 +82,7 @@ export function PageTransitionLoader() {
     <BrandLoadingOverlay
       fullScreen={true}
       message="Loading page..."
-      subtext="HireLocal • Loading next page"
+      subtext="Sri city Jobs • Loading next page"
     />
   );
 }

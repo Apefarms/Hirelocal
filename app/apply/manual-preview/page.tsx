@@ -484,7 +484,7 @@ export default function ManualPreviewPage() {
         key: orderData.keyId,
         amount: orderData.amount,
         currency: orderData.currency || "INR",
-        name: "HireLocal",
+        name: "Sri city Jobs",
         description: "Professional ATS Resume Download (₹10)",
         order_id: orderData.orderId,
         prefill: {

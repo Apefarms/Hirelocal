@@ -91,7 +91,7 @@ export default function HLAdminPage() {
           <div className="text-center mb-6">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary-950/80 border border-primary-500/40 text-primary-300 text-xs font-bold tracking-wider uppercase shadow-lg mb-3">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              HireLocal System Administration
+              Sri city Jobs System Administration
             </div>
             <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
               Admin Portal Login
@@ -169,7 +169,7 @@ export default function HLAdminPage() {
                 href="/"
                 className="text-xs text-slate-400 hover:text-white transition-colors"
               >
-                ← Return to HireLocal Public Portal
+                ← Return to Sri city Jobs Public Portal
               </Link>
             </div>
           </Card>
@@ -198,11 +198,11 @@ export default function HLAdminPage() {
           <div className="flex items-center gap-3">
             <Link href="/HL-admin" className="flex items-center gap-2.5">
               <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary-600 to-indigo-700 text-white font-extrabold flex items-center justify-center shadow-md">
-                H
+                S
               </div>
               <div>
                 <span className="font-extrabold text-lg tracking-tight text-slate-900 dark:text-white">
-                  HireLocal
+                  Sri city Jobs
                 </span>
                 <span className="ml-1.5 px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider bg-primary-100 text-primary-800 dark:bg-primary-900/60 dark:text-primary-300">
                   Admin

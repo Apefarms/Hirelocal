@@ -1,6 +1,6 @@
-# HireLocal - Vercel & TiDB Cloud Production Deployment Guide
+# Sri city Jobs - Vercel & TiDB Cloud Production Deployment Guide
 
-This document provides step-by-step instructions for deploying the **HireLocal** (`job_portal`) application to **Vercel** with a **TiDB Cloud Starter** MySQL-compatible serverless database.
+This document provides step-by-step instructions for deploying the **Sri city Jobs** (`job_portal`) application to **Vercel** with a **TiDB Cloud Starter** MySQL-compatible serverless database.
 
 ---
 

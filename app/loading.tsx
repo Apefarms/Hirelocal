@@ -5,7 +5,7 @@ export default function Loading() {
     <BrandLoadingOverlay
       fullScreen={true}
       message="Loading page..."
-      subtext="HireLocal • Hyperlocal Job Portal"
+      subtext="Sri city Jobs • Hyperlocal Job Portal"
     />
   );
 }

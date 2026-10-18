@@ -18,7 +18,7 @@ import { Suspense } from "react";
 import { PageTransitionLoader } from "@/components/ui/PageTransitionLoader";
 
 export const metadata: Metadata = {
-  title: "HireLocal — Hyperlocal Job Portal",
+  title: "Sri city Jobs — Hyperlocal Job Portal",
   description:
     "Find and apply to local jobs near you. Fast, simple, mobile-first recruitment platform.",
 };
