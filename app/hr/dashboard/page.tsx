@@ -67,28 +67,50 @@ export default function HRDashboardPage() {
 
   return (
     <div className="max-w-3xl mx-auto w-full px-4 py-6 sm:py-10">
+      {/* Revoked Access Banner */}
+      {hrSession.status === "rejected" && (
+        <div className="mb-6 p-4 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/60 text-red-800 dark:text-red-200 text-sm flex items-start gap-3 shadow-sm animate-fade-in">
+          <span className="text-xl">⚠️</span>
+          <div className="flex-1">
+            <h3 className="font-bold">Account Access Revoked</h3>
+            <p className="text-xs text-red-700 dark:text-red-300 mt-0.5 leading-relaxed">
+              Your HR account access has been revoked by the Administrator. You cannot post new jobs or modify listings. Please contact the administrator to restore your access.
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-            HR Dashboard
-          </h1>
+          <div className="flex items-center gap-2">
+            <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
+              HR Dashboard
+            </h1>
+            {hrSession.status === "rejected" && (
+              <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-red-100 text-red-800 dark:bg-red-900/60 dark:text-red-200">
+                Access Revoked
+              </span>
+            )}
+          </div>
           <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
             Welcome back, {hrSession.name} • {hrSession.company}
           </p>
         </div>
 
-        <Button
-          onClick={() => router.push("/hr/jobs/new")}
-          variant="primary"
-          size="md"
-          className="shrink-0 flex items-center gap-1.5 shadow-md shadow-primary-600/20"
-        >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-          </svg>
-          Post New Job
-        </Button>
+        {hrSession.status !== "rejected" && (
+          <Button
+            onClick={() => router.push("/hr/jobs/new")}
+            variant="primary"
+            size="md"
+            className="shrink-0 flex items-center gap-1.5 shadow-md shadow-primary-600/20"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+            Post New Job
+          </Button>
+        )}
       </div>
 
       {/* Stats row */}

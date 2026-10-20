@@ -36,13 +36,8 @@ export default function HRLoginPage() {
     setLoading(true);
     setTimeout(() => {
       const result = loginHR(email.trim(), password);
-      if (result === "pending") {
-        setError("Your HR account is pending Admin approval. Please wait until your account is assigned.");
-        setLoading(false);
-        return;
-      }
       if (result === "rejected") {
-        setError("Your HR account registration request was rejected by the Admin.");
+        setError("Your HR account access has been revoked by the Administrator.");
         setLoading(false);
         return;
       }

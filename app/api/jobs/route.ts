@@ -31,6 +31,16 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: 'Missing required fields' }, { status: 400 });
     }
 
+    if (hrId) {
+      const [hrRows]: any = await pool.query('SELECT status FROM hr_users WHERE id = ?', [hrId]);
+      if (hrRows.length > 0 && hrRows[0].status === 'rejected') {
+        return NextResponse.json(
+          { success: false, error: 'Your HR account access has been revoked by the Administrator.' },
+          { status: 403 }
+        );
+      }
+    }
+
     const id = `job-${Date.now()}`;
     const postedDate = new Date().toISOString().split('T')[0];
     const reqJson = JSON.stringify(requirements || []);

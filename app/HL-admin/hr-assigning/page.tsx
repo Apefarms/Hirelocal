@@ -15,7 +15,7 @@ export default function HRAssigningPage() {
 
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
   const [checkingAuth, setCheckingAuth] = useState(true);
-  const [filterTab, setFilterTab] = useState<"pending" | "approved" | "rejected" | "all">("pending");
+  const [filterTab, setFilterTab] = useState<"pending" | "approved" | "rejected" | "all">("all");
   const [actionNotice, setActionNotice] = useState<{ message: string; type: "success" | "danger" } | null>(null);
   const [processingId, setProcessingId] = useState<string | null>(null);
 
@@ -53,7 +53,7 @@ export default function HRAssigningPage() {
     setProcessingId(null);
     if (ok) {
       setActionNotice({
-        message: `✔ Successfully assigned & approved HR account for ${hr.name} (${hr.company}). HR can now log in and post jobs.`,
+        message: `✔ Successfully restored & approved HR access for ${hr.name} (${hr.company}). HR can now log in and post jobs.`,
         type: "success",
       });
       if (refetchData) refetchData();
@@ -66,7 +66,7 @@ export default function HRAssigningPage() {
     setProcessingId(null);
     if (ok) {
       setActionNotice({
-        message: `HR registration request for ${hr.company} (${hr.name}) has been rejected.`,
+        message: `⛔ HR access for ${hr.company} (${hr.name}) has been revoked. They can no longer post jobs or log in.`,
         type: "danger",
       });
       if (refetchData) refetchData();
@@ -84,11 +84,11 @@ export default function HRAssigningPage() {
             </Link>
             <span className="text-slate-300">|</span>
             <div className="flex items-center gap-2">
-              <span className="w-8 h-8 rounded-lg bg-amber-500 text-white font-extrabold flex items-center justify-center text-sm shadow-sm">
+              <span className="w-8 h-8 rounded-lg bg-primary-600 text-white font-extrabold flex items-center justify-center text-sm shadow-sm">
                 🛡️
               </span>
               <span className="font-extrabold text-base tracking-tight text-slate-900 dark:text-white">
-                HR Assigning Portal
+                HR Access Management
               </span>
             </div>
           </div>
@@ -114,16 +114,16 @@ export default function HRAssigningPage() {
           <div>
             <div className="flex items-center gap-2.5">
               <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
-                HR Account Assigning & Verification
+                HR Access & Account Management
               </h1>
-              {pendingHRs.length > 0 && (
-                <span className="px-2.5 py-0.5 rounded-full text-xs font-black bg-amber-500 text-white shadow-sm animate-pulse">
-                  {pendingHRs.length} Pending
+              {rejectedHRs.length > 0 && (
+                <span className="px-2.5 py-0.5 rounded-full text-xs font-black bg-red-100 text-red-800 dark:bg-red-900/60 dark:text-red-200 shadow-sm">
+                  {rejectedHRs.length} Revoked
                 </span>
               )}
             </div>
             <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 max-w-2xl">
-              Review details entered by employers on the &quot;Create HR Account&quot; page. Assign accounts to grant job posting permissions, or reject unauthorized requests.
+              Employers can create HR accounts instantly. You can review all registered HR accounts here and revoke or restore their access at any time.
             </p>
           </div>
         </div>
@@ -150,18 +150,18 @@ export default function HRAssigningPage() {
         {/* Filter Tabs */}
         <div className="flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-2 overflow-x-auto">
           <button
-            onClick={() => setFilterTab("pending")}
+            onClick={() => setFilterTab("all")}
             className={`px-4 py-2 text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center gap-2 whitespace-nowrap ${
-              filterTab === "pending"
-                ? "bg-amber-500 text-white shadow-md shadow-amber-500/20"
+              filterTab === "all"
+                ? "bg-slate-800 text-white shadow-md"
                 : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
             }`}
           >
-            <span>Pending Requests</span>
+            <span>All HRs</span>
             <span className={`px-2 py-0.5 rounded-full text-[10px] font-black ${
-              filterTab === "pending" ? "bg-amber-700 text-white" : "bg-amber-100 text-amber-800"
+              filterTab === "all" ? "bg-slate-700 text-white" : "bg-slate-200 text-slate-800"
             }`}>
-              {pendingHRs.length}
+              {allHRs.length}
             </span>
           </button>
 
@@ -173,7 +173,7 @@ export default function HRAssigningPage() {
                 : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
             }`}
           >
-            <span>Assigned / Approved HRs</span>
+            <span>Active HRs</span>
             <span className={`px-2 py-0.5 rounded-full text-[10px] font-black ${
               filterTab === "approved" ? "bg-emerald-800 text-white" : "bg-emerald-100 text-emerald-800"
             }`}>
@@ -189,7 +189,7 @@ export default function HRAssigningPage() {
                 : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
             }`}
           >
-            <span>Rejected Requests</span>
+            <span>Revoked Access</span>
             <span className={`px-2 py-0.5 rounded-full text-[10px] font-black ${
               filterTab === "rejected" ? "bg-red-800 text-white" : "bg-red-100 text-red-800"
             }`}>
@@ -197,16 +197,23 @@ export default function HRAssigningPage() {
             </span>
           </button>
 
-          <button
-            onClick={() => setFilterTab("all")}
-            className={`px-4 py-2 text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center gap-2 whitespace-nowrap ${
-              filterTab === "all"
-                ? "bg-slate-800 text-white shadow-md"
-                : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
-            }`}
-          >
-            <span>All ({allHRs.length})</span>
-          </button>
+          {pendingHRs.length > 0 && (
+            <button
+              onClick={() => setFilterTab("pending")}
+              className={`px-4 py-2 text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center gap-2 whitespace-nowrap ${
+                filterTab === "pending"
+                  ? "bg-amber-500 text-white shadow-md shadow-amber-500/20"
+                  : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+              }`}
+            >
+              <span>Pending Review</span>
+              <span className={`px-2 py-0.5 rounded-full text-[10px] font-black ${
+                filterTab === "pending" ? "bg-amber-700 text-white" : "bg-amber-100 text-amber-800"
+              }`}>
+                {pendingHRs.length}
+              </span>
+            </button>
+          )}
         </div>
 
         {/* HR Request Cards Grid */}
@@ -275,7 +282,7 @@ export default function HRAssigningPage() {
                         ? "bg-emerald-100 text-emerald-800 border border-emerald-300 dark:bg-emerald-900/60 dark:text-emerald-200"
                         : "bg-red-100 text-red-800 border border-red-300 dark:bg-red-950/60 dark:text-red-200"
                     }`}>
-                      {isPending ? "Pending Review" : isApproved ? "Assigned / Active" : "Rejected"}
+                      {isPending ? "Pending Review" : isApproved ? "Active" : "Access Revoked"}
                     </span>
                   </div>
 
@@ -303,13 +310,13 @@ export default function HRAssigningPage() {
                     </div>
                     {hr.createdAt && (
                       <div className="flex items-center justify-between border-t border-slate-200/60 dark:border-slate-700/60 pt-1.5 text-[11px] text-slate-400">
-                        <span>Submitted On:</span>
+                        <span>Registered On:</span>
                         <span>{new Date(hr.createdAt).toLocaleDateString()}</span>
                       </div>
                     )}
                   </div>
 
-                  {/* Action Buttons: Assign & Reject */}
+                  {/* Action Buttons: Revoke & Restore */}
                   <div className="pt-1">
                     {isPending ? (
                       <div className="flex items-center gap-2">
@@ -317,43 +324,47 @@ export default function HRAssigningPage() {
                           fullWidth
                           size="md"
                           loading={isProcessing}
-                          className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs py-2.5 shadow-sm"
+                          className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs py-2 shadow-sm"
                           onClick={() => handleAssign(hr)}
                         >
-                          <span>✓</span> Assign Account
+                          <span>✓</span> Approve Access
                         </Button>
                         <Button
                           fullWidth
                           size="md"
                           variant="secondary"
                           loading={isProcessing}
-                          className="text-red-600 hover:bg-red-50 dark:hover:bg-red-950/40 border-red-200 dark:border-red-900 font-bold text-xs py-2.5"
+                          className="text-red-600 hover:bg-red-50 dark:hover:bg-red-950/40 border-red-200 dark:border-red-900 font-bold text-xs py-2"
                           onClick={() => handleReject(hr)}
                         >
-                          <span>✗</span> Reject
+                          <span>⛔</span> Revoke
                         </Button>
                       </div>
                     ) : isRejected ? (
                       <Button
                         fullWidth
-                        size="sm"
-                        variant="secondary"
+                        size="md"
                         loading={isProcessing}
-                        className="text-primary-600 font-bold text-xs"
+                        className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs py-2 shadow-sm"
                         onClick={() => handleAssign(hr)}
                       >
-                        Re-assign (Approve) Account →
+                        <span>✓</span> Restore HR Access
                       </Button>
                     ) : (
-                      <div className="flex items-center justify-between text-xs text-emerald-600 dark:text-emerald-400 font-semibold px-1">
-                        <span>✓ Active & Assigned</span>
-                        <button
-                          onClick={() => handleReject(hr)}
-                          className="text-[11px] text-slate-400 hover:text-red-500 hover:underline cursor-pointer"
-                        >
-                          Revoke Access
-                        </button>
-                      </div>
+                      <Button
+                        fullWidth
+                        size="md"
+                        variant="secondary"
+                        loading={isProcessing}
+                        className="text-red-600 hover:bg-red-50 dark:hover:bg-red-950/40 border-red-200 dark:border-red-900/60 font-bold text-xs py-2"
+                        onClick={() => {
+                          if (confirm(`Revoke HR access for ${hr.name} (${hr.company})? They will no longer be able to log in or post jobs.`)) {
+                            handleReject(hr);
+                          }
+                        }}
+                      >
+                        <span>⛔</span> Revoke HR Access
+                      </Button>
                     )}
                   </div>
                 </Card>

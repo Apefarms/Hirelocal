@@ -35,6 +35,8 @@ function PostNewJobContent() {
   useEffect(() => {
     if (isHydrated && !hrSession) {
       router.replace("/hr/login");
+    } else if (isHydrated && hrSession?.status === "rejected") {
+      router.replace("/hr/dashboard");
     }
   }, [isHydrated, hrSession, router]);
 

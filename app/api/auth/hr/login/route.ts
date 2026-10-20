@@ -20,19 +20,11 @@ export async function POST(request: Request) {
 
     const hrUser = rows[0];
 
-    // Check account approval status
-    if (hrUser.status === 'pending') {
-      return NextResponse.json({
-        success: false,
-        error: 'Your HR account is pending Admin approval. Please wait until your account is assigned.',
-        status: 'pending'
-      }, { status: 403 });
-    }
-
+    // Check if account has been revoked by admin
     if (hrUser.status === 'rejected') {
       return NextResponse.json({
         success: false,
-        error: 'Your HR account registration request was rejected by the Admin.',
+        error: 'Your HR account access has been revoked by the Administrator.',
         status: 'rejected'
       }, { status: 403 });
     }

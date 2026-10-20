@@ -227,7 +227,7 @@ export default function HLAdminPage() {
               href="/HL-admin/hr-assigning"
               className="px-3 py-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors flex items-center gap-1.5"
             >
-              <span>HR Assigning</span>
+              <span>HR Access Control</span>
               {pendingHRCount > 0 && (
                 <span className="px-1.5 py-0.2 rounded-full text-[10px] font-extrabold bg-amber-500 text-white shadow-sm animate-pulse">
                   {pendingHRCount}
@@ -283,17 +283,17 @@ export default function HLAdminPage() {
               Administrative Control Dashboard
             </h1>
             <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-              Real-time monitoring of candidates, jobs, companies, and pending HR registrations in Sri City.
+              Real-time monitoring of candidates, jobs, HR access control, and employers in Sri City.
             </p>
           </div>
           <div className="flex items-center gap-2">
             <Link href="/HL-admin/hr-assigning">
               <Button size="md" className="gap-2 shadow-md">
                 <span>🛡️</span>
-                <span>Review HR Requests</span>
-                {pendingHRCount > 0 && (
-                  <span className="px-2 py-0.5 rounded-full text-xs font-black bg-white text-primary-700">
-                    {pendingHRCount}
+                <span>Manage HR Access</span>
+                {rejectedHRs.length > 0 && (
+                  <span className="px-2 py-0.5 rounded-full text-xs font-black bg-red-100 text-red-700">
+                    {rejectedHRs.length} Revoked
                   </span>
                 )}
               </Button>
@@ -314,47 +314,36 @@ export default function HLAdminPage() {
            KPI CARDS ROW
            ═══════════════════════════════════════════════════════ */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-          {/* KPI 1: HR Assigning Card (Highlighted / Interactive) */}
+          {/* KPI 1: HR Access Control Card */}
           <Card
             hover={true}
             onClick={() => router.push("/HL-admin/hr-assigning")}
-            className={`cursor-pointer transition-all duration-300 relative overflow-hidden border-2 ${
-              pendingHRCount > 0
-                ? "border-amber-400 bg-gradient-to-br from-amber-50/80 via-white to-amber-50/40 dark:from-amber-950/30 dark:via-slate-900 dark:to-slate-900 shadow-md ring-2 ring-amber-400/20"
-                : "border-slate-200 dark:border-slate-800"
-            }`}
+            className="cursor-pointer transition-all duration-300 relative overflow-hidden border-2 border-slate-200 dark:border-slate-800 hover:border-primary-400"
           >
             <div className="flex items-start justify-between">
               <div>
-                <p className="text-xs font-bold uppercase tracking-wider text-amber-700 dark:text-amber-400">
-                  HR Assigning
+                <p className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                  HR Accounts
                 </p>
                 <div className="flex items-baseline gap-2 mt-1">
                   <span className="text-3xl font-black text-slate-900 dark:text-white">
-                    {pendingHRCount}
+                    {allHRs.length}
                   </span>
-                  <span className="text-xs text-slate-500">pending</span>
+                  <span className="text-xs text-slate-500">total</span>
                 </div>
               </div>
-              <div className="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-900/60 text-amber-600 flex items-center justify-center text-xl shadow-sm">
+              <div className="w-10 h-10 rounded-xl bg-primary-100 dark:bg-primary-900/60 text-primary-600 flex items-center justify-center text-xl shadow-sm">
                 🛡️
               </div>
             </div>
 
-            {/* Prominent Badge Indicator */}
-            <div className="mt-3 flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-800">
-              {pendingHRCount > 0 ? (
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-amber-500 text-white shadow-sm animate-pulse">
-                  <span>●</span>
-                  <span>{pendingHRCount} Action Required</span>
-                </span>
-              ) : (
-                <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
-                  <span>✓</span> All HRs Assigned
-                </span>
-              )}
-              <span className="text-xs font-bold text-primary-600 group-hover:translate-x-0.5 transition-transform">
-                View →
+            {/* Indicator */}
+            <div className="mt-3 flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-800 text-xs">
+              <span className="font-semibold text-emerald-600 dark:text-emerald-400">
+                {approvedHRs.length} Active {rejectedHRs.length > 0 && `• ${rejectedHRs.length} Revoked`}
+              </span>
+              <span className="font-bold text-primary-600 group-hover:translate-x-0.5 transition-transform">
+                Manage →
               </span>
             </div>
           </Card>
@@ -602,61 +591,63 @@ export default function HLAdminPage() {
                           {hr.phone && <div className="text-[11px] text-slate-400">{hr.phone}</div>}
                         </td>
                         <td className="py-3 px-3">
-                          {hr.status === "pending" ? (
+                          {hr.status === "rejected" ? (
+                            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-100 text-red-800 dark:bg-red-900/60 dark:text-red-200">
+                              Access Revoked
+                            </span>
+                          ) : hr.status === "pending" ? (
                             <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-900/60 dark:text-amber-200">
                               Pending
                             </span>
-                          ) : hr.status === "rejected" ? (
-                            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-100 text-red-800 dark:bg-red-900/60 dark:text-red-200">
-                              Rejected
-                            </span>
                           ) : (
                             <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-900/60 dark:text-emerald-200">
-                              Approved
+                              Active
                             </span>
                           )}
                         </td>
                         <td className="py-3 px-3 text-right space-x-1.5">
-                          {hr.status === "pending" ? (
+                          {hr.status === "rejected" ? (
+                            <button
+                              onClick={async () => {
+                                await assignHR(hr.id);
+                                setActionSuccess(`Restored HR access for ${hr.name} (${hr.company})`);
+                              }}
+                              className="px-2.5 py-1 rounded bg-emerald-600 text-white font-bold text-[11px] hover:bg-emerald-700 shadow-sm transition-colors cursor-pointer"
+                            >
+                              Restore Access
+                            </button>
+                          ) : hr.status === "pending" ? (
                             <>
                               <button
                                 onClick={async () => {
                                   await assignHR(hr.id);
-                                  setActionSuccess(`Assigned HR ${hr.name}`);
+                                  setActionSuccess(`Approved HR access for ${hr.name} (${hr.company})`);
                                 }}
-                                className="px-2 py-1 rounded bg-emerald-600 text-white font-bold text-[11px] hover:bg-emerald-700"
+                                className="px-2 py-1 rounded bg-emerald-600 text-white font-bold text-[11px] hover:bg-emerald-700 cursor-pointer"
                               >
-                                Assign
+                                Approve
                               </button>
                               <button
                                 onClick={async () => {
                                   await rejectHR(hr.id);
-                                  setActionSuccess(`Rejected HR ${hr.name}`);
+                                  setActionSuccess(`Revoked HR access for ${hr.name} (${hr.company})`);
                                 }}
-                                className="px-2 py-1 rounded bg-red-100 text-red-700 font-bold text-[11px] hover:bg-red-200"
+                                className="px-2 py-1 rounded bg-red-100 text-red-700 font-bold text-[11px] hover:bg-red-200 cursor-pointer"
                               >
-                                Reject
+                                Revoke
                               </button>
                             </>
-                          ) : hr.status === "rejected" ? (
-                            <button
-                              onClick={async () => {
-                                await assignHR(hr.id);
-                                setActionSuccess(`Re-assigned HR ${hr.name}`);
-                              }}
-                              className="px-2 py-1 rounded bg-primary-100 text-primary-700 font-bold text-[11px] hover:bg-primary-200"
-                            >
-                              Re-assign
-                            </button>
                           ) : (
                             <button
                               onClick={async () => {
-                                await rejectHR(hr.id);
-                                setActionSuccess(`Revoked HR ${hr.name}`);
+                                if (confirm(`Revoke HR access for ${hr.name} (${hr.company})? They will no longer be able to log in or post jobs.`)) {
+                                  await rejectHR(hr.id);
+                                  setActionSuccess(`Revoked HR access for ${hr.name} (${hr.company})`);
+                                }
                               }}
-                              className="px-2 py-1 rounded text-red-500 hover:bg-red-50 text-[11px]"
+                              className="px-2.5 py-1 rounded bg-red-50 text-red-600 hover:bg-red-100 dark:bg-red-950/40 dark:text-red-300 font-bold text-[11px] border border-red-200 dark:border-red-900/60 transition-colors cursor-pointer"
                             >
-                              Revoke
+                              Revoke Access
                             </button>
                           )}
                         </td>

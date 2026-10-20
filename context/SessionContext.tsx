@@ -263,6 +263,7 @@ interface SessionState {
   signupHR: (name: string, company: string, phone: string, email: string, password: string) => HRUser | string;
   assignHR: (hrId: string) => Promise<boolean>;
   rejectHR: (hrId: string) => Promise<boolean>;
+  revokeHR: (hrId: string) => Promise<boolean>;
   postJob: (jobData: { title: string; location: string; description: string; requirements: string[]; salary: string; extraMessage?: string }) => Promise<Job | null>;
   logout: () => void;
   applyToJob: (jobId: string, candidateData: CandidateFormData) => void;
@@ -350,6 +351,16 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       localStorage.removeItem("hirelocal_hr");
     }
   }, [hrSession, isHydrated]);
+
+  // Keep active HR session synced with updated status in hrUsers
+  useEffect(() => {
+    if (hrSession) {
+      const live = mockData.hrUsers.find((h) => h.id === hrSession.id);
+      if (live && live.status && live.status !== hrSession.status) {
+        setHRSession((prev) => (prev ? { ...prev, status: live.status } : prev));
+      }
+    }
+  }, [mockData.hrUsers, hrSession]);
 
   useEffect(() => {
     if (!isHydrated) return;
@@ -476,9 +487,6 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       if (hr.password && password && hr.password !== password) {
         return null;
       }
-      if (hr.status === "pending") {
-        return "pending";
-      }
       if (hr.status === "rejected") {
         return "rejected";
       }
@@ -514,7 +522,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       phone,
       email,
       password,
-      status: "pending",
+      status: "approved",
       createdAt: new Date().toISOString(),
       jobIds: [],
     };
@@ -523,6 +531,11 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       ...prev,
       hrUsers: [...prev.hrUsers, newHR],
     }));
+
+    setHRSession(newHR);
+    setCandidateSession(null);
+    localStorage.setItem("hirelocal_hr", JSON.stringify(newHR));
+    localStorage.removeItem("hirelocal_candidate");
 
     fetch("/api/auth/hr/signup", {
       method: "POST",
@@ -541,6 +554,8 @@ export function SessionProvider({ children }: { children: ReactNode }) {
           h.id === hrId ? { ...h, status: "approved" as const } : h
         ),
       }));
+
+      setHRSession((prev) => (prev && prev.id === hrId ? { ...prev, status: "approved" as const } : prev));
 
       const res = await fetch("/api/admin/hr-assign", {
         method: "POST",
@@ -563,17 +578,23 @@ export function SessionProvider({ children }: { children: ReactNode }) {
         ),
       }));
 
+      setHRSession((prev) => (prev && prev.id === hrId ? { ...prev, status: "rejected" as const } : prev));
+
       const res = await fetch("/api/admin/hr-assign", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ hrId, action: "reject" }),
+        body: JSON.stringify({ hrId, action: "revoke" }),
       });
       return res.ok;
     } catch (err) {
-      console.error("Error rejecting HR:", err);
+      console.error("Error rejecting/revoking HR:", err);
       return false;
     }
   }, []);
+
+  const revokeHR = useCallback(async (hrId: string): Promise<boolean> => {
+    return rejectHR(hrId);
+  }, [rejectHR]);
 
   const logout = useCallback(() => {
     setCandidateSession(null);
@@ -665,7 +686,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   );
 
   const postJob = useCallback(async (jobData: { title: string; location: string; description: string; requirements: string[]; salary: string; extraMessage?: string }): Promise<Job | null> => {
-    if (!hrSession) return null;
+    if (!hrSession || hrSession.status === "rejected") return null;
 
     try {
       const res = await fetch("/api/jobs", {
@@ -714,6 +735,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
         signupHR,
         assignHR,
         rejectHR,
+        revokeHR,
         postJob,
         logout,
         applyToJob,

@@ -29,7 +29,6 @@ function HRSignupContent() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -78,67 +77,9 @@ function HRSignupContent() {
       }
 
       setLoading(false);
-      setSubmitted(true);
+      router.push("/hr/dashboard");
     }, 500);
   };
-
-  if (submitted) {
-    return (
-      <div className="flex-1 flex items-center justify-center px-4 py-10 gradient-hero-subtle">
-        <div className="w-full max-w-md animate-scale-in">
-          <Card hover={false} className="p-6 sm:p-8 text-center shadow-xl border border-slate-200 dark:border-slate-800">
-            <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-amber-50 dark:bg-amber-900/40 text-amber-600 flex items-center justify-center text-3xl shadow-sm">
-              ⏳
-            </div>
-            <h1 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
-              HR Account Request Submitted!
-            </h1>
-            <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-6">
-              Thank you, <strong className="text-slate-900 dark:text-white">{name}</strong>. Your HR registration request for <strong className="text-slate-900 dark:text-white">{company}</strong> has been submitted to the Admin for assignment.
-            </p>
-
-            <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-xs text-slate-600 dark:text-slate-300 space-y-2 mb-6 text-left">
-              <div className="flex justify-between border-b border-slate-200/60 dark:border-slate-700/60 pb-1.5">
-                <span className="text-slate-400">Company Name:</span>
-                <span className="font-semibold text-slate-800 dark:text-slate-100">{company}</span>
-              </div>
-              <div className="flex justify-between border-b border-slate-200/60 dark:border-slate-700/60 pb-1.5">
-                <span className="text-slate-400">Contact Person:</span>
-                <span className="font-semibold text-slate-800 dark:text-slate-100">{name}</span>
-              </div>
-              <div className="flex justify-between border-b border-slate-200/60 dark:border-slate-700/60 pb-1.5">
-                <span className="text-slate-400">Work Email:</span>
-                <span>{email}</span>
-              </div>
-              <div className="flex justify-between border-b border-slate-200/60 dark:border-slate-700/60 pb-1.5">
-                <span className="text-slate-400">Mobile Number:</span>
-                <span>{phone}</span>
-              </div>
-              <div className="flex justify-between pt-0.5 items-center">
-                <span className="text-slate-400">Status:</span>
-                <span className="px-2 py-0.5 rounded-full text-[11px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-900/60 dark:text-amber-200">
-                  Pending Admin Assignment
-                </span>
-              </div>
-            </div>
-
-            <p className="text-xs text-slate-500 dark:text-slate-400 mb-6">
-              You will be able to log in to post jobs once the Administrator verifies and assigns your account.
-            </p>
-
-            <div className="space-y-2.5">
-              <Button fullWidth size="lg" onClick={() => router.push("/hr/login")}>
-                Go to HR Login →
-              </Button>
-              <Button fullWidth size="md" variant="ghost" onClick={() => router.push("/")}>
-                Return to Home
-              </Button>
-            </div>
-          </Card>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="flex-1 flex items-center justify-center px-4 py-10 gradient-hero-subtle">

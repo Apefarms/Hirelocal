@@ -28,7 +28,7 @@ export async function POST(request: Request) {
     const newId = `hr-${Date.now()}`;
     await pool.query(
       'INSERT INTO hr_users (id, name, company, phone, email, password, status) VALUES (?, ?, ?, ?, ?, ?, ?)',
-      [newId, name, company, phone || '', email, password, 'pending']
+      [newId, name, company, phone || '', email, password, 'approved']
     );
 
     const newHR = {
@@ -38,14 +38,14 @@ export async function POST(request: Request) {
       phone: phone || '',
       email,
       password,
-      status: 'pending',
+      status: 'approved',
       jobIds: [],
     };
 
     return NextResponse.json({
       success: true,
-      pendingApproval: true,
-      message: 'HR registration request submitted successfully. Awaiting Admin assignment and approval.',
+      pendingApproval: false,
+      message: 'HR account created successfully.',
       hrUser: newHR
     }, { status: 201 });
   } catch (error: any) {

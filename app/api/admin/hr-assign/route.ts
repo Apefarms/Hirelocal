@@ -18,20 +18,22 @@ export async function GET() {
   }
 }
 
-// POST /api/admin/hr-assign - Assign (approve) or reject HR account
+// POST /api/admin/hr-assign - Approve/restore or revoke HR account access
 export async function POST(request: Request) {
   try {
     const body = await request.json();
     const { hrId, action } = body;
 
-    if (!hrId || !action || !['assign', 'reject'].includes(action)) {
+    const allowedActions = ['assign', 'approve', 'restore', 'reject', 'revoke'];
+    if (!hrId || !action || !allowedActions.includes(action)) {
       return NextResponse.json(
-        { success: false, error: 'Valid hrId and action ("assign" or "reject") are required' },
+        { success: false, error: 'Valid hrId and action ("assign", "approve", "restore", "revoke", or "reject") are required' },
         { status: 400 }
       );
     }
 
-    const newStatus = action === 'assign' ? 'approved' : 'rejected';
+    const isRevoke = action === 'revoke' || action === 'reject';
+    const newStatus = isRevoke ? 'rejected' : 'approved';
 
     const [result]: any = await pool.query(
       'UPDATE hr_users SET status = ? WHERE id = ?',
@@ -52,9 +54,9 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       success: true,
-      message: action === 'assign'
-        ? `HR account for ${updatedRows[0]?.company || 'user'} has been successfully assigned and approved.`
-        : `HR account request for ${updatedRows[0]?.company || 'user'} has been rejected.`,
+      message: isRevoke
+        ? `HR account access for ${updatedRows[0]?.name || 'user'} (${updatedRows[0]?.company || 'Company'}) has been revoked.`
+        : `HR account access for ${updatedRows[0]?.name || 'user'} (${updatedRows[0]?.company || 'Company'}) has been granted/restored.`,
       hrUser: updatedRows[0],
     });
   } catch (error: any) {
